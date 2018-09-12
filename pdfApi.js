@@ -19,7 +19,7 @@ app.use(cors({origin:true,credentials: true}));
 app.listen(8000);
 
 let db;
-let query;
+let pdfResults;
 
 mongodb.MongoClient.connect('mongodb://localhost', { useNewUrlParser: true }, (err, client) => {
     if (err) throw err;

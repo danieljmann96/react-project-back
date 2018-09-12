@@ -10,8 +10,17 @@ class Queries {
         let regex = new RegExp(req.params.props, "i");
         return new Promise((resolve, reject) => {
             try {
-                let query = {}
-                query[req.params.prop] = { $regex: regex };
+                let query = { $or: []}
+
+                let arrayQuery = {}
+                arrayQuery[req.params.prop] = {$elemMatch: {$regex: regex }}
+
+                let stringQuery = {}
+                stringQuery[req.params.prop] = {$regex: regex}
+
+                query['$or'].push(arrayQuery);
+                query['$or'].push(stringQuery);
+
                 resolve(this.db.collection('fs.files').find(query).sort({ uploadDate: -1 }));
             } catch (e) {
                 console.log(e);
